@@ -4,3 +4,4 @@
 *.xml
 *.su
 *.cyclo
+/Debug

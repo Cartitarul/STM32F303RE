@@ -1,3 +1,0 @@
-../Core/Src/UART.c:21:5:asciiToHex	5
-../Core/Src/UART.c:41:6:cleanBuffer	2
-../Core/Src/UART.c:47:6:UART_TransmitData	1
