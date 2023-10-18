@@ -7,6 +7,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "UART.h"
+#include <string.h>
 
 uint8_t rx_buffer[100];
 uint8_t data_buffer[100];
@@ -45,6 +46,16 @@ int asciiToHex(char char1, char char2) {
 }
 
 void UART_TransmitData(uint8_t *data, uint16_t size) {
-    // Transmit data over UART
-    HAL_UART_Transmit(&huart2, data, size, HAL_MAX_DELAY); // Adjust HAL_MAX_DELAY as needed
+    char uartBuffer[size]; // Adjust the size based on your needs
+
+    for (uint16_t i = 0; i < size; ++i) {
+        // Convert each byte to a string and transmit
+        int len = snprintf(uartBuffer, sizeof(uartBuffer), "%u", data[i]);
+        if (len > 0) {
+            HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, (uint16_t)len, HAL_MAX_DELAY);
+        }
+    }
+    sprintf(uartBuffer, "\r\n");
+    HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, strlen(uartBuffer), HAL_MAX_DELAY);
+
 }

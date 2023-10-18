@@ -15,7 +15,7 @@ extern uint8_t data_buffer[100];
 extern uint8_t cleaned_buffer[100];
 extern uint8_t cleaned2buffer[100];
 extern uint8_t transfer_cplt;
-
+extern char uartBuffer[100];
 int asciiToHex(char char1, char char2);
 void UART_TransmitData(uint8_t *data, uint16_t size);
 
