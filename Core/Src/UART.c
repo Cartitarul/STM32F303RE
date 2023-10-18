@@ -8,8 +8,14 @@
 #include "cmsis_os.h"
 #include "UART.h"
 
+uint8_t rx_buffer[100];
+uint8_t data_buffer[100];
+uint8_t cleaned_buffer[100];
+uint8_t cleaned2buffer[100];
+uint8_t transfer_cplt;
 
-
+uint8_t rx_indx;
+uint8_t rx_data[2];
 uint8_t blinkstatus=0;
 uint8_t sizedatabuffer;
 const static uint8_t ascii_hex[16]={0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x41,0x42,0x43,0x44,0x45,0x46};
@@ -36,12 +42,6 @@ int asciiToHex(char char1, char char2) {
 	retval = (hex_ascii[index1]<<4) | hex_ascii[index2];
     return retval;
 	//return (uint8_t)((uint8_t)( hex_ascii[index1] << 8 ) | (uint8_t)hex_ascii[index2] ) ;
-}
-
-void cleanBuffer(uint8_t *ForBuffer[]){
-	for(int i=0;i < 100;i++){ 		// Cleaning Buffer after every read to not have garbage data stored.
-		ForBuffer[i]=0;			//
-	}
 }
 
 void UART_TransmitData(uint8_t *data, uint16_t size) {
