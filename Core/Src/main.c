@@ -274,7 +274,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			rx_indx=0;
 			transfer_cplt=1;
 			j = 0;
-			HAL_UART_Transmit(&huart2, "\n\r",2,100); // Simulates enter
+
 
 			//	for(i=0;i<100;i++){ 		// Cleaning Buffer after every read to not have garbage data stored.
 			//		data_buffer[i]=0;		//
