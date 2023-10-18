@@ -18,7 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <string.h>
 #include "cmsis_os.h"
+#include "RTE.h"
 #include "UART.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -288,28 +290,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			for(i=0;i<strlen(cleaned_buffer);i=i+2){
 				cleaned2buffer[j++]=asciiToHex(cleaned_buffer[i],cleaned_buffer[i+1]);
 			}
-
-			/*
-			if(!strcmp(rx_buffer,"LED ON"))
-			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-			}
-			if(!strcmp(rx_buffer,"LED OFF"))
-			{
-				HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-			}
-			if(!strcmp(rx_buffer,"BLINK ON"))
-			{
-				blinkstatus = 1;
-			}
-			if(!strcmp(rx_buffer,"BLINK OFF"))
-			{
-				blinkstatus = 0;
-			}
-			*/
 		}
 		HAL_UART_Receive_IT(&huart2, rx_data, 1);
-		HAL_UART_Transmit(&huart2, rx_data, strlen(rx_data), 100);
+		//HAL_UART_Transmit(&huart2, rx_data, strlen(rx_data), 100);
 	}
 }
 void cleanBuffer(uint8_t *ForBuffer[]){
@@ -351,9 +334,9 @@ void StartTask02(void const * argument)
 {
   /* USER CODE BEGIN StartTask02 */
   /* Infinite loop */
+  static int counter=0;
   for(;;)
   {
-  int counter=0;
   counter++;
   RTE_Task_1ms();
   if(counter%5==0)
