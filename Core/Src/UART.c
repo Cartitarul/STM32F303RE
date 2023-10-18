@@ -53,6 +53,7 @@ void UART_TransmitData(uint8_t *data, uint16_t size) {
         int len = snprintf(uartBuffer, sizeof(uartBuffer), "%u", data[i]);
         if (len > 0) {
             HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, (uint16_t)len, HAL_MAX_DELAY);
+            HAL_UART_Transmit(&huart2, " ", 1, HAL_MAX_DELAY);
         }
     }
     sprintf(uartBuffer, "\r\n");
