@@ -60,3 +60,14 @@ void UART_TransmitData(uint8_t *data, uint16_t size) {
     HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, strlen(uartBuffer), HAL_MAX_DELAY);
 
 }
+int isNewInputReceived(void){
+    if (newInputReceived)
+    {
+        newInputReceived = 0; // Reset the flag
+        return 1;             // New input received
+    }
+    else
+    {
+        return 0; // No new input
+    }
+}

@@ -53,6 +53,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+extern uint8_t newInputReceived;
 extern UART_HandleTypeDef huart2;
 /* USER CODE END EFP */
 

@@ -47,6 +47,7 @@
 UART_HandleTypeDef huart2;
 osThreadId defaultTaskHandle;
 osThreadId myTask02Handle;
+uint8_t newInputReceived = 0;
 /* USER CODE BEGIN PV */
 
 
@@ -270,6 +271,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		}
 		if(rx_data[0] != 13){
 			rx_buffer[rx_indx++]=rx_data[0];
+			newInputReceived = 1;
 		}else{
 			rx_indx=0;
 			transfer_cplt=1;
