@@ -40,12 +40,12 @@ class SerialCommunicator:
 
         # Console for live output
         ttk.Label(root, text="Logs:").grid(row=5, column=0, columnspan=2, padx=5, pady=5)
-        self.console = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=40, height=20)
+        self.console = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=20, height=20)
         self.console.grid(row=6, column=0, columnspan=2, padx=5, pady=5)
 
         # Console for received data (Rx)
         ttk.Label(root, text="Rx/Tx:").grid(row=5, column=5, columnspan=2, padx=5, pady=5)
-        self.console_rx = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=40, height=20)
+        self.console_rx = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=50, height=20)
         self.console_rx.grid(row=6, column=5, columnspan=2, padx=5, pady=5)
 
         # Button to clear Tx console
