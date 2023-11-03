@@ -65,22 +65,32 @@ class SerialCommunicator:
     def start_serial_read(self):
         # Function to continuously read from the serial port in a separate thread
         def serial_read():
+            previous_data = b""
             while True:
                 if self.ser and self.ser.is_open:
                     try:
                         received_data = self.ser.readline().decode('utf-8')
-                        if received_data:
-                           decimal_numbers = [int(num) for num in received_data.strip().split() if num.strip().isdigit()]
-                        hex_data = " ".join([f"{num:02X}" for num in decimal_numbers])
-                        # Check the first decimal number
-                        first_number = decimal_numbers[0]
-                        if first_number == 0x4F:
-                            self.console_rx.tag_configure("red", foreground="red")
-                            self.console_rx.insert(tk.END, hex_data + "\n", "red")
-                        else:
-                            self.console_rx.tag_configure("green", foreground="green")
-                            self.console_rx.insert(tk.END, hex_data + "\n", "green")
-
+                        if received_data and received_data != previous_data:
+                            print(f"Received data (raw): {received_data}")
+                            self.log_rx(f"Received data (hex): {received_data}")
+                            if received_data:
+                                decimal_numbers = [int(num) for num in received_data.strip().split() if num.strip().isdigit()]
+                                print(f"Decimal numbers: {decimal_numbers}")
+                            hex_data = " ".join([f"{num:x}" for num in decimal_numbers])
+                            print(f"Received data (hex): {hex_data}")
+                            self.log_rx(f"Received (hex): {hex_data}")
+                            # Check the first decimal number
+                            if decimal_numbers:
+                                first_number = decimal_numbers[0]
+                                print(f"First number: {first_number}")
+                                self.log_rx(f"First number: {first_number}")
+                                if first_number == 0x4F:
+                                    self.console_rx.tag_configure("red", foreground="red")
+                                    self.console_rx.insert(tk.END, hex_data + "\n", "red")
+                                else:
+                                    self.console_rx.tag_configure("green", foreground="green")
+                                    self.console_rx.insert(tk.END, hex_data + "\n", "green")
+                            previous_data = received_data
                     except Exception as e:
                         self.log(f"Error reading from serial port: {str(e)}")
 
