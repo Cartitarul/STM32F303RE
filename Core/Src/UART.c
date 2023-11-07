@@ -50,14 +50,16 @@ void UART_TransmitData(uint8_t *data, uint16_t size) {
 
     for (uint16_t i = 0; i < size; ++i) {
         // Convert each byte to a string and transmit
-        int len = snprintf(uartBuffer, sizeof(uartBuffer), "%u", data[i]);
+        int len = snprintf(uartBuffer, sizeof(uartBuffer), "%02X", data[i]);
         if (len > 0) {
             HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, (uint16_t)len, HAL_MAX_DELAY);
             HAL_UART_Transmit(&huart2, " ", 1, HAL_MAX_DELAY);
         }
     }
-    sprintf(uartBuffer, "\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, strlen(uartBuffer), HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart2, "\r\n", 2, HAL_MAX_DELAY);
+   //for(int i=0; i < sizeof(Buffer); i++)
+   //		Buffer[i]=0;
+   //// Reseting Bufffer
 
 }
 int isNewInputReceived(void){
@@ -70,4 +72,27 @@ int isNewInputReceived(void){
     {
         return 0; // No new input
     }
+}
+
+void cleanBufferUART(uint8_t *Buffer){
+	for(int i=0; i < sizeof(Buffer); i++)
+		Buffer[i]=0;
+}
+char x=0,y=0;
+
+
+void Transmit_NRC(uint8_t Service,uint8_t NRC){
+	uint8_t data_send[3]={0x7F,Service,NRC};
+	uint16_t size = sizeof(data_send);
+	UART_TransmitData(data_send,size);
+	x++;
+}
+
+
+void Transmit_PRC(uint8_t Service,uint8_t PRC){
+	Service = Service + 0x40;
+	uint8_t data_send[2]={Service,PRC};
+	uint16_t size = sizeof(data_send);
+	UART_TransmitData(data_send,size);
+	y++;
 }

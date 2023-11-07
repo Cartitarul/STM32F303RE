@@ -82,8 +82,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
-
 	HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -271,12 +269,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		}
 		if(rx_data[0] != 13){
 			rx_buffer[rx_indx++]=rx_data[0];
-			newInputReceived = 1;
+
 		}else{
 			rx_indx=0;
 			transfer_cplt=1;
 			j = 0;
-
+			newInputReceived = 1;
 
 			//	for(i=0;i<100;i++){ 		// Cleaning Buffer after every read to not have garbage data stored.
 			//		data_buffer[i]=0;		//
@@ -298,11 +296,19 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	}
 }
 void cleanBuffer(uint8_t *ForBuffer[]){
-	for(int i=0;i < 100;i++){ 		// Cleaning Buffer after every read to not have garbage data stored.
+	for(int i=0;i < sizeof(ForBuffer);i++){ 		// Cleaning Buffer after every read to not have garbage data stored.
 		ForBuffer[i]=0;			//
 	}
 }
-
+uint8_t GetService_DCM(){
+	return cleaned2buffer[1];
+}
+uint8_t GetFunction_DCM(){
+	return cleaned2buffer[2];
+}
+uint8_t GetLenght_DCM(){
+	return cleaned2buffer[0];
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */

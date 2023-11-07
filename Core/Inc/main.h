@@ -51,7 +51,9 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
-
+uint8_t GetService_DCM();
+uint8_t GetFunction_DCM();
+uint8_t GetLenght_DCM();
 /* USER CODE BEGIN EFP */
 extern uint8_t newInputReceived;
 extern UART_HandleTypeDef huart2;
