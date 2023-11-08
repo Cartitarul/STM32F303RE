@@ -18,6 +18,7 @@ extern uint8_t transfer_cplt;
 extern uint8_t data_send;
 extern char x,y;
 int isNewInputReceived(void);
+char* uint8ArrayToString(uint8_t* array, size_t arrayLength);
 void cleanBuffer_UART(uint8_t *Buffer);
 extern char uartBuffer[100];
 int asciiToHex(char char1, char char2);

@@ -46,9 +46,9 @@ int asciiToHex(char char1, char char2) {
 }
 
 void UART_TransmitData(uint8_t *data, uint16_t size) {
-    char uartBuffer[size]; // Adjust the size based on your needs
+    char uartBuffer[size+1]; // Adjust the size based on your needs
 
-    for (uint16_t i = 0; i < size; ++i) {
+    for (uint16_t i = 0; i < size; i++) {
         // Convert each byte to a string and transmit
         int len = snprintf(uartBuffer, sizeof(uartBuffer), "%02X", data[i]);
         if (len > 0) {
@@ -57,11 +57,11 @@ void UART_TransmitData(uint8_t *data, uint16_t size) {
         }
     }
     HAL_UART_Transmit(&huart2, "\r\n", 2, HAL_MAX_DELAY);
-   //for(int i=0; i < sizeof(Buffer); i++)
-   //		Buffer[i]=0;
-   //// Reseting Bufffer
 
 }
+
+
+
 int isNewInputReceived(void){
     if (newInputReceived)
     {
@@ -82,17 +82,17 @@ char x=0,y=0;
 
 
 void Transmit_NRC(uint8_t Service,uint8_t NRC){
-	uint8_t data_send[3]={0x7F,Service,NRC};
-	uint16_t size = sizeof(data_send);
+	uint8_t data_send[3]={127,Service,NRC};
+	uint8_t size = sizeof(data_send);
 	UART_TransmitData(data_send,size);
 	x++;
 }
 
 
 void Transmit_PRC(uint8_t Service,uint8_t PRC){
-	Service = Service + 0x40;
-	uint8_t data_send[2]={Service,PRC};
-	uint16_t size = sizeof(data_send);
+	Service = Service + 64;
+	uint8_t data_send[2]={80,1};
+	uint8_t size = sizeof(data_send);
 	UART_TransmitData(data_send,size);
 	y++;
 }

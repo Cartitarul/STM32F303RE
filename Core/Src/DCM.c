@@ -20,6 +20,9 @@ const struct {
     {0x10, {0x01, 0x02, 0x03}, 2, &DiagnosticSessionControl},  // Row 1
     {0x11, {0x01}, 2, &EcuReset}   // Row 2
 };
+
+int function=1;
+
 void DCM_Service_Init(){
 	int i,j,k;
 	int ServiceIndex;
@@ -57,10 +60,15 @@ void DCM_Service_Init(){
 		Transmit_NRC(ServiceBuffer,0x13);
 		return 0;
 	}
+	if(FunctionBuffer == 0x03 && function == 1){
+		Transmit_NRC(ServiceBuffer,0x7E);
+	}
 	if(ServiceCheck==1 && FunctionCheck==1 && SizeCheck==1){
 		Transmit_PRC(ServiceBuffer,FunctionBuffer);
+		function = 2;
 		return 0;
 	}
+
 }
 
 void DiagnosticSessionControl(){}

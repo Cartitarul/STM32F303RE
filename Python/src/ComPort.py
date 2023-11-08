@@ -69,30 +69,25 @@ class SerialCommunicator:
             while True:
                 if self.ser and self.ser.is_open:
                     try:
-                        received_data = self.ser.readline().decode('utf-8')
-                        if received_data and received_data != previous_data:
-                            print(f"Received data (raw): {received_data}")
-                            self.log_rx(f"Received data (hex): {received_data}")
+                        received_data = self.ser.readline().decode('utf-8').strip()
+                        if received_data:
+                            hex_data = received_data.strip()
+
+                            # Check if the string is not empty before accessing elements
                             if received_data:
-                                decimal_numbers = [int(num) for num in received_data.strip().split() if num.strip().isdigit()]
-                                print(f"Decimal numbers: {decimal_numbers}")
-                            hex_data = " ".join([f"{num:x}" for num in decimal_numbers])
-                            print(f"Received data (hex): {hex_data}")
-                            self.log_rx(f"Received (hex): {hex_data}")
-                            # Check the first decimal number
-                            if decimal_numbers:
-                                first_number = decimal_numbers[0]
-                                print(f"First number: {first_number}")
-                                self.log_rx(f"First number: {first_number}")
-                                if first_number == 0x4F:
+                                # Check the first character
+                                first_char = received_data[:2]
+                                print(f"First character: {first_char}")
+                                if first_char == '7F':  # Compare with the character 'O'
                                     self.console_rx.tag_configure("red", foreground="red")
-                                    self.console_rx.insert(tk.END, hex_data + "\n", "red")
+                                    self.console_rx.insert(tk.END, f"{hex_data}\n", "red")
                                 else:
                                     self.console_rx.tag_configure("green", foreground="green")
-                                    self.console_rx.insert(tk.END, hex_data + "\n", "green")
-                            previous_data = received_data
+                                    self.console_rx.insert(tk.END, f"{hex_data}\n", "green")
+
+                            previous_data = received_data  # Update previous_data
                     except Exception as e:
-                        self.log(f"Error reading from serial port: {str(e)}")
+                        print(f"Error reading from serial port: {str(e)}")
 
         # Start the serial reading thread
         self.read_thread = threading.Thread(target=serial_read, daemon=True)
