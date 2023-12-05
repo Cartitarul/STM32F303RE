@@ -77,7 +77,6 @@ class SerialCommunicator:
                             if received_data:
                                 # Check the first character
                                 first_char = received_data[:2]
-                                print(f"First character: {first_char}")
                                 if first_char == '7F':  # Compare with the character 'O'
                                     self.console_rx.tag_configure("red", foreground="red")
                                     self.console_rx.insert(tk.END, f"{hex_data}\n", "red")

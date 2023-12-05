@@ -23,8 +23,7 @@ void cleanBuffer_UART(uint8_t *Buffer);
 extern char uartBuffer[100];
 int asciiToHex(char char1, char char2);
 void UART_TransmitData(uint8_t *data, uint16_t size);
-void Transmit_NRC(uint8_t Service,uint8_t NRC);
-void Transmit_PRC(uint8_t Service,uint8_t PRC);
-
+void Transmit_Response(uint8_t Transmit_Response[]);
+#define RxBufferPointer cleaned2buffer
 #endif /* INC_UART_H_ */
 

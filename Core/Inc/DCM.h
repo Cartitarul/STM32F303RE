@@ -8,6 +8,7 @@
 #ifndef INC_DCM_H_
 #define INC_DCM_H_
 void DCM_Service_Init();
-void DiagnosticSessionControl();
-void EcuReset();
+extern uint8_t nrc;
+extern uint8_t Response_Buffer[100];
+#define RxBufferPointer cleaned2buffer
 #endif /* INC_DCM_H_ */

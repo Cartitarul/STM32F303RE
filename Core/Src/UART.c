@@ -52,13 +52,13 @@ void UART_TransmitData(uint8_t *data, uint16_t size) {
         // Convert each byte to a string and transmit
         int len = snprintf(uartBuffer, sizeof(uartBuffer), "%02X", data[i]);
         if (len > 0) {
-            HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, (uint16_t)len, HAL_MAX_DELAY);
-            HAL_UART_Transmit(&huart2, " ", 1, HAL_MAX_DELAY);
+            HAL_UART_Transmit(&huart2, (uint8_t *)uartBuffer, (uint16_t)len, 1);
+            HAL_UART_Transmit(&huart2, " ", 1, 1);
         }
     }
-    HAL_UART_Transmit(&huart2, "\r\n", 2, HAL_MAX_DELAY);
-
+    HAL_UART_Transmit(&huart2, "\r\n", 2, 1);
 }
+
 
 
 
@@ -81,18 +81,6 @@ void cleanBufferUART(uint8_t *Buffer){
 char x=0,y=0;
 
 
-void Transmit_NRC(uint8_t Service,uint8_t NRC){
-	uint8_t data_send[3]={127,Service,NRC};
-	uint8_t size = sizeof(data_send);
-	UART_TransmitData(data_send,size);
-	x++;
-}
-
-
-void Transmit_PRC(uint8_t Service,uint8_t PRC){
-	Service = Service + 64;
-	uint8_t data_send[2]={80,1};
-	uint8_t size = sizeof(data_send);
-	UART_TransmitData(data_send,size);
-	y++;
+void Transmit_Response(uint8_t Transmit_Response[], uint8_t size){
+	UART_TransmitData(Transmit_Response,size);
 }
